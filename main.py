@@ -14,19 +14,14 @@ if __name__ == "__main__":
 
         while not done:
             # 获取合法动作
-            current_player = env.players[env.current_player]
+            current_player = env.players[env.current_player_idx]
             valid_actions = [108]  # 摸牌动作
             for action in range(108):
-                try:
-                    template = env._action_to_card(action)
-                    if any(card == template for card in current_player.hand):
-                        if env._is_valid_move(template, current_player):
-                            valid_actions.append(action)
-                except Exception as e:
-                    print(e)
+                if env._is_valid_action(action, current_player):
+                    valid_actions.append(action)
 
             # 简单用户输入
-            if env.current_player == 0:  # 人类玩家
+            if env.current_player_idx == 0:  # 人类玩家
                 choice = env.renderer.user_input(env, valid_actions)
                 action = valid_actions[choice]
             else:  # AI随机选择

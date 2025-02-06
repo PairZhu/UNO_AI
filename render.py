@@ -65,12 +65,12 @@ class ASCIIUnoRenderer(UNORenderer):
         print("\nPlayers:")
         for i, player in enumerate(env.players):
             status = ""
-            if i == env.current_player:
+            if i == env.current_player_idx:
                 status = " ← CURRENT"
-            if show_all or i == env.current_player:
+            if show_all or i == env.current_player_idx:
                 cards = " ".join([self._card_repr(c) for c in player.hand])
                 print(f"Player {i+1} ({len(player.hand)} cards){status}:")
-                if i == env.current_player or show_all:
+                if i == env.current_player_idx or show_all:
                     print(f"  {cards}")
                 else:
                     print("  [Cards hidden]")
@@ -86,7 +86,7 @@ class ASCIIUnoRenderer(UNORenderer):
         print("Available actions:")
         for i, act in enumerate(valid_actions):
             if act < 108:
-                card = env._action_to_card(act)
+                card = env.all_cards[act]
                 print(f"{i}: {self._card_repr(card)}", end=" ")
             else:
                 print(f"{i}: Draw Card")
